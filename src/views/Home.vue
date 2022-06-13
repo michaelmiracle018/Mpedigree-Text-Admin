@@ -1,21 +1,15 @@
 <template>
-	<div class="wrapper">
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-		<div><span class="dot"></span></div>
-	</div>
+	<main class="wrapper">
+		<div class="container">
+			<h1>Register With Us To View Our Admin Dashboard</h1>
+			<h2>You Can Get An Account By Simply Registering With Us.</h2>
+			<h3>Already Have An Account?</h3>
+			<div class="center-btn">
+				<router-link id="btn" to="Login">Login In</router-link>
+			</div>
+		</div>
+	</main>
+	
 </template>
 
 <script>
@@ -30,123 +24,50 @@ export default {
 	height: 90%;
 	bottom: 0;
 	left: 0;
-	background: linear-gradient(180deg, #04fafd, 5%, #119dff, 50%, #030423);
+	background-color: rgb(17, 31, 53);
 	position: absolute;
 	z-index: 7;
 }
-.wrapper h1 {
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	position: absolute;
-	font-family: sans-serif;
+.container h1 {
+	font-family: "Courier New", Courier, monospace;
 	letter-spacing: 1px;
 	word-spacing: 2px;
 	color: #fff;
 	font-size: 40px;
 	font-weight: 888;
 	text-transform: uppercase;
+	text-align: center;
+	padding: 2rem;
 }
-.wrapper div {
-	height: 60px;
-	width: 60px;
-	border: 2px solid rgba(255, 255, 255, 0.7);
-	border-radius: 50px;
-	position: absolute;
-	top: 10%;
-	left: 10%;
-	animation: 4s linear infinite;
+
+.container h3 {
+	text-align: center;
+	font-family: "Courier New", Courier, monospace;
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
 }
-div .dot {
-	height: 25px;
-	width: 25px;
-	border-radius: 50px;
-	background: rgba(255, 255, 255, 0.5);
-	position: absolute;
-	top: 20%;
-	right: 20%;
+
+.center-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
 }
-.wrapper div:nth-child(1) {
-	top: 20%;
-	left: 20%;
-	animation: animate 8s linear infinite;
+.container #btn {
+	padding: 1rem;
+	width: 10%;
+	text-align: center;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 16px;
+	font-weight: bold;
+	outline: none;
+	border: none;
+	color: #fff;
+	background-color: rgb(4, 19, 44);
 }
-.wrapper div:nth-child(2) {
-	top: 60%;
-	left: 80%;
-	animation: animate 10s linear infinite;
-}
-.wrapper div:nth-child(3) {
-	top: 40%;
-	left: 40%;
-	animation: animate 3s linear infinite;
-}
-.wrapper div:nth-child(4) {
-	top: 66%;
-	left: 30%;
-	animation: animate 7s linear infinite;
-}
-.wrapper div:nth-child(5) {
-	top: 90%;
-	left: 10%;
-	animation: animate 9s linear infinite;
-}
-.wrapper div:nth-child(6) {
-	top: 30%;
-	left: 60%;
-	animation: animate 5s linear infinite;
-}
-.wrapper div:nth-child(7) {
-	top: 70%;
-	left: 20%;
-	animation: animate 8s linear infinite;
-}
-.wrapper div:nth-child(8) {
-	top: 75%;
-	left: 60%;
-	animation: animate 10s linear infinite;
-}
-.wrapper div:nth-child(9) {
-	top: 50%;
-	left: 50%;
-	animation: animate 6s linear infinite;
-}
-.wrapper div:nth-child(10) {
-	top: 45%;
-	left: 20%;
-	animation: animate 10s linear infinite;
-}
-.wrapper div:nth-child(11) {
-	top: 10%;
-	left: 90%;
-	animation: animate 9s linear infinite;
-}
-.wrapper div:nth-child(12) {
-	top: 20%;
-	left: 70%;
-	animation: animate 7s linear infinite;
-}
-.wrapper div:nth-child(13) {
-	top: 20%;
-	left: 20%;
-	animation: animate 8s linear infinite;
-}
-.wrapper div:nth-child(14) {
-	top: 60%;
-	left: 5%;
-	animation: animate 6s linear infinite;
-}
-.wrapper div:nth-child(15) {
-	top: 90%;
-	left: 80%;
-	animation: animate 9s linear infinite;
-}
-@keyframes animate {
-	0% {
-		transform: scale(0) translateY(0) rotate(70deg);
-	}
-	100% {
-		transform: scale(1.3) translateY(-100px) rotate(360deg);
-	}
+
+#btn:hover {
+	background-color: rgb(11, 25, 48,)
 }
 </style>

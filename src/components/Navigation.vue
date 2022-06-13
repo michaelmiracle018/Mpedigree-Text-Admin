@@ -67,11 +67,11 @@ export default {
 }
 
 .btn-link:hover {
-	color: aqua;
+	color: rgb(9, 99, 246);
 }
 
 .sign-up-container i {
-	color: aqua;
+	color: #fff;
 	font-weight: bold;
 	font-size: 1.3rem;
 }
