@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../views/Home.vue";
 import DashBoard from "../components/DashBoard.vue";
 import Category from "../components/Category.vue";
 import Customer from "../components/Customer.vue";
@@ -58,12 +58,13 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+	history: createWebHistory(),
+	mode: "history",
+	routes,
+});
 
 router.beforeEach((to, from, next) => {
-	document.title = `${to.meta.title} | Text`;
+	document.title = `${to.meta.title} | Test`;
 	next();
 });
-export default router
+export default router;

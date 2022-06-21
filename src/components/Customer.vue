@@ -8,8 +8,8 @@
 			</div>
 
 			<div class="input-register">
-				<label for="password">Email</label>
-				<input type="text" id="username" v-model="email" required />
+				<label for="email">Email</label>
+				<input type="email" id="username" v-model="email" required />
 			</div>
 		</div>
 		<div class="form-group">
@@ -23,42 +23,65 @@
 				<input type="text" id="username" v-model="address" required />
 			</div>
 		</div>
+		<div class="msg" v-if="error">{{ errorMsg }}</div>
 		<button type="submit" @click.prevent="submit()">Submit</button>
 	</form>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
-			collectInfo: [],
 			name: "",
 			email: "",
 			phone: "",
 			address: "",
-			entityId:  localStorage.getItem("userId"),
+			entityId: localStorage.getItem("userId"),
+			errorMsg: "",
+			error: null,
 		};
 	},
 	methods: {
-		...mapActions(["customer"]),
+		// ...mapActions(["createCustomer"]),
 		submit() {
-			const credential = {
+			const credentials = {
 				email: this.email,
 				phone_number: this.phone,
 				address: this.address,
 				name: this.name,
 				entity_id: this.entityId,
 			};
-			this.$store.dispatch("customer", credential);
-			this.name = '',
-				this.email = '',
-			this.phone = '',
-			this.address = ''
+			if (
+				(this.name !== "",
+				this.email !== "",
+				this.phone !== "",
+				this.address !== "")
+			) {
+				this.error = false;
+				this.$store.dispatch("createCustomer", credentials)
+				(this.name = ""),
+				(this.email = ""),
+				(this.phone = ""),
+					(this.address = "");
+				// e.preventDefault();
+			} else { 
+				
+				this.error = true
+				this.errorMsg = "Please fill all empty fields"
+			}
+			
 		},
-
 	},
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.msg {
+	font-size: 12px;
+	color: red;
+	font-weight: bold;
+	padding: 0.5rem;
+	text-align: center;
+}
+</style>

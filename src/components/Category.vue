@@ -6,30 +6,46 @@
 			<label for="username">Name</label>
 			<input type="text" class="username" v-model="name" required />
 		</div>
+
+		<div class="msg" v-if="error">{{errorMsg}}</div>
 		<button type="submit" @click.prevent="submit()">Submit</button>
 	</form>
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
 			name: "",
-			entityId: localStorage.getItem("userId")
+			entityId: localStorage.getItem("userId"),
+			errorMsg: "",
+			error: null
 		};
 	},
 	methods: {
-		...mapActions(["category"]),
 		submit() {
 			const credential = {
 				category_name: this.name,
 				entity_id: this.entityId,
 			};
-			this.$store.dispatch("category", credential)
+			if (this.name !== "") {
+				this.error = false
+				this.$store.dispatch("createCategory", credential)
+			} else {
+				this.error = true,
+				this.errorMsg = "Please fill the empty field"
+			}
 		},
 	},
 };
 </script>
 
-<style></style>
+<style scoped>
+.msg {
+	font-size: 12px;
+	color: red;
+	font-weight: bold;
+	padding: 0.5rem;
+	text-align: center;
+}
+</style>

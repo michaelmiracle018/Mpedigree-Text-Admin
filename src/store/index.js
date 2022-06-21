@@ -12,26 +12,25 @@ const getCategory = "/inventory/category/list/";
 const registerUrl = "/entity/signup";
 const baseURL = "https://staging.afcfta.app/api";
 const loginUrl = "/individual/signin";
-const category = "/inventory/category/add/";
-const customer = "/inventory/customers/add/";
+const categoryURL = "/inventory/category/add/";
+const customerURL = "/inventory/customers/add/";
 
 const token = JSON.parse(localStorage.getItem("signInToken"));
 const userId = localStorage.getItem("userId");
 
 export default createStore({
 	state: {
-		customers: [],
-		category: [],
-		newCategory: "",
+		allCustomers: [],
+		categories: [],
 		signInToken: null,
 		userId: null,
 		user: null,
 	},
 	getters: {
-		getAllCustomers: (state) => state.customers,
+		getAllCustomers: (state) => state.allCustomers,
 		isLoggedIn: (state) => !!state.signInToken,
 		user: (state) => state.user,
-		getAllCategories: (state) => state.category,
+		getAllCategories: (state) => state.categories,
 		ifAuthenticated(state) {
 			return state.signInToken !== null;
 		},
@@ -50,7 +49,6 @@ export default createStore({
 							"userId",
 							JSON.stringify(res.data.entities[0].entity.id),
 						);
-					console.log(res.data);
 					commit("loginToken", {
 						signInToken: res.data.token,
 						userId: res.data.entities[0].entity.id,
@@ -78,7 +76,6 @@ export default createStore({
 					admin_other_names: credential.admin_other_names,
 				})
 				.then((res) => {
-					console.log(res.data.token);
 					localStorage.setItem("signInToken", JSON.stringify(res.data.token)),
 						localStorage.setItem(
 							"userId",
@@ -115,10 +112,10 @@ export default createStore({
 			});
 		},
 		// CATEGORIES ACTION
-		category({ commit }, credential) {
+		createCategory({ commit }, credential) {
 			return axios
 				.post(
-					`${baseURL}${category}`,
+					`${baseURL}${categoryURL}`,
 					{
 						category_name: credential.category_name,
 						entity_id: credential.entity_id,
@@ -130,8 +127,6 @@ export default createStore({
 					},
 				)
 				.then((res) => {
-					console.log(res.data.data.category_name);
-					console.log(res.data.data.id);
 					commit("newCategoryInfo", res.data);
 					router.push("/Dashboard");
 				})
@@ -139,14 +134,19 @@ export default createStore({
 					console.log(error);
 				});
 		},
+		
 		fetchAllCategories({ commit }) {
 			return axios
 				.get(`${baseURL}${getCategory}${userId}`, {
 					headers: { Authorization: `${token}` },
 				})
 				.then((res) => {
-					console.log(res.data);
-					commit("setCategories", res.data.categories);
+					commit(
+						"setCategories",
+						res.data.categories.filter(
+							(item) => item.category_name !== "Uncategorized",
+						),
+					);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -161,30 +161,18 @@ export default createStore({
 						headers: { Authorization: `${token}` },
 					},
 				)
-				.then((res) => {
-					console.log(res.data.categories);
+				.then(() => {
 					commit("removeCategoryInfo", categoryId);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		},
-		updateCategoryInfo({ commit }, categoryId) {
-			return axios
-				.put(`${baseURL}/inventory/category/${categoryId}/update/`, {
-					headers: { Authorization: `${token}` },
-				})
-				.then((res) => {
-					// let newCategory = res.data.categories;
-					console.log(res.data.categories);
-					commit("editCategory", categoryId);
-				});
-		},
 		// CUSTOMERS ACTION
-		customer({ commit }, credential) {
+		createCustomer({ commit }, credential) {
 			return axios
 				.post(
-					`${baseURL}${customer}`,
+					`${baseURL}${customerURL}`,
 					{
 						email: credential.email,
 						name: credential.name,
@@ -199,10 +187,9 @@ export default createStore({
 					},
 				)
 				.then((res) => {
-					console.log(res.data.customer);
 					commit("newCustomerInfo", res.data);
 					router.push("/Dashboard");
-				});
+				})
 		},
 		fetchAllCustomers({ commit }) {
 			return axios
@@ -213,7 +200,6 @@ export default createStore({
 					},
 				)
 				.then((res) => {
-					console.log(res.data);
 					commit("setCustomers", res.data.customer);
 				})
 				.catch((error) => {
@@ -225,14 +211,14 @@ export default createStore({
 				.delete(`https://staging.afcfta.app/api/inventory/customers/${uuId}/`, {
 					headers: { Authorization: `${token}` },
 				})
-				.then((res) => {
-					console.log(res.data.categories);
+				.then(() => {
 					commit("removeCustomerInfo", uuId);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		},
+
 	},
 	mutations: {
 		loginToken(state, userData) {
@@ -243,22 +229,32 @@ export default createStore({
 			state.signInToken = null;
 			state.userId = null;
 		},
-		newCategoryInfo: (state, info) => state.category.push(info),
-		setCategories: (state, category) => (state.category = category),
+		newCategoryInfo(state, info) {
+			if (Array.isArray(state?.categories)) {
+				state.categories.push(info)
+			} else {
+				state.categories = []
+				state.categories.push(info);
+			}
+		},
+		setCategories: (state, category) => (state.categories = category),
 		removeCategoryInfo(state, id) {
-			state.category = state.category.filter((item) => item.id !== id);
+			state.categories = state.categories.filter((item) => item.id !== id);
 		},
-		editCategory(state, id, edit) {
-			state.category = state.category.find((item) => {
-				if (item.id === id) {
-					item.cate = edit;
-				}
-			});
+		
+		newCustomerInfo(state, info) {
+			if (Array.isArray(state?.allCustomers)) {
+				state.allCustomers.push(info)
+			} else {
+				state.allCustomers = []
+				state.allCustomers.push(info);
+			}
 		},
-		newCustomerInfo: (state, info) => state.customers.push(info),
-		setCustomers: (state, customer) => (state.customers = customer),
-		removeCustomerInfo(state, id) {
-			state.customers = state.customers.filter((item) => item.id !== id);
+		setCustomers: (state, customer) => (state.allCustomers = customer),
+		removeCustomerInfo(state, uuId) {
+			console.log(uuId);
+			console.log(state.allCustomers);
+			state.allCustomers = state.allCustomers.filter((item) => item.uuid !== uuId);
 		},
 	},
 });

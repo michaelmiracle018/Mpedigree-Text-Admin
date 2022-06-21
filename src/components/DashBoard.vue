@@ -33,7 +33,7 @@
 								id="category"
 								v-for="item in getAllCategories"
 								:key="item.id"
-								@dblclick="editCategory(item.id)" 
+								@dblclick="editCategory(item)" 
 							>
 								<ul>
 									<li>
@@ -120,11 +120,8 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			"deleteCategory",
 			"fetchAllCategories",
-			"updateCategoryInfo",
 			"fetchAllCustomers",
-			"deleteCustomer",
 		]),
 		handleLogout() {
 			this.$store.dispatch("logout");
@@ -133,20 +130,22 @@ export default {
 			this.showSidebar = !this.showSidebar;
 		},
 		deleteCategoryInfo(categoryId) {
-			this.deleteCategory(categoryId);
+			this.$store.dispatch("deleteCategory", categoryId);
 		},
-		editCategory(categoryId) {
-			
-			this.updateCategoryInfo(categoryId);
+		editCategory(item) {
+			const updData = { 
+				id: item.id,
+				name: item.category_name
+			}
+			this.updateCategoryInfo(updData);
 		},
 		deleteCustomerInfo(uuId) {
-			this.deleteCustomer(uuId);
+			this.$store.dispatch("deleteCustomer", uuId);
 		},
 	},
 	data() {
 		return {
 			showSidebar: false,
-			updateCategory: {},
 		};
 	},
 	created() {
