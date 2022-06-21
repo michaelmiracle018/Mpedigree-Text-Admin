@@ -52,7 +52,7 @@
 
 			<div class="input-register">
 				<label for="password">Admin Email</label>
-				<input type="text" id="username" v-model="adminEmail" required />
+				<input type="email" id="username" v-model="adminEmail" required />
 			</div>
 		</div>
 		<div class="input-register">

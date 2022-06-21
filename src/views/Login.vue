@@ -3,7 +3,7 @@
 		<h2>Login With Your Account</h2>
 		<div class="input-parent">
 			<label for="username">Email</label>
-			<input type="text" class="username" v-model="email" required />
+			<input type="email" class="username" v-model="email" required />
 		</div>
 
 		<div class="input-parent">
