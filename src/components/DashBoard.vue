@@ -188,8 +188,9 @@ export default {
 
 .icon {
 	position: relative;
+	font-size: 1rem;
 	left: -40px;
-	bottom: -35px;
+	bottom: -24px;
 }
 
 .link:hover {
