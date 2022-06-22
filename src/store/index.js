@@ -252,8 +252,6 @@ export default createStore({
 		},
 		setCustomers: (state, customer) => (state.allCustomers = customer),
 		removeCustomerInfo(state, uuId) {
-			console.log(uuId);
-			console.log(state.allCustomers);
 			state.allCustomers = state.allCustomers.filter((item) => item.uuid !== uuId);
 		},
 	},
